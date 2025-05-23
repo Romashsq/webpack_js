@@ -6,34 +6,32 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   entry: './src/index.js',
   output: {
-    filename: '[name].[contenthash].js',
+    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    assetModuleFilename: 'assets/[hash][ext][query]',
+    clean: true,
   },
   module: {
     rules: [
       {
-        test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: 'babel-loader',
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg)$/i,
-        type: 'asset/resource',
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
       },
-      {
-        test: /\.(woff2?|ttf|eot|otf)$/i,
-        type: 'asset/resource',
-      },
+      // додаткові правила для .scss або .ts якщо потрібно
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
-    new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css',
-    }),
   ],
-  mode: 'production',
+  devServer: {
+    static: './dist',
+    hot: true,
+    open: true,
+  },
 };
