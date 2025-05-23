@@ -15,12 +15,19 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: 'babel-loader',
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+            sourceType: 'module'
+          }
+        }
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
+  test: /\.css$/,
+  use: [MiniCssExtractPlugin.loader, 'css-loader'],
+}
+
       // додаткові правила для .scss або .ts якщо потрібно
     ],
   },
