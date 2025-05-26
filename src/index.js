@@ -1,10 +1,6 @@
-import '../styles/main.css';
-import logo from '../images/logo.png';
+console.log('Webpack works!');
+import './styles/main.css';
+console.log('CSS loaded');
 
-const img = document.createElement('img');
-img.src = logo;
-document.body.appendChild(img);
-
-const title = document.createElement('h1');
-title.textContent = 'Привіт, Webpack!';
-document.body.appendChild(title);
+import logo from './images/logo.png';
+console.log('Image loaded:', logo);

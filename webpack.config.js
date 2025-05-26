@@ -1,12 +1,11 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
+  mode: 'development', // Явно указываем режим
   entry: './src/index.js',
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
@@ -18,27 +17,36 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env'],
-            sourceType: 'module'
+            configFile: path.resolve(__dirname, 'babel.config.json') // Явное указание конфига
           }
         }
       },
       {
-  test: /\.css$/,
-  use: [MiniCssExtractPlugin.loader, 'css-loader'],
-}
-
-      // додаткові правила для .scss або .ts якщо потрібно
-    ],
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[hash][ext][query]'
+        }
+      }
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-    }),
+      inject: 'body'
+    })
   ],
   devServer: {
-    static: './dist',
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
+    compress: true,
+    port: 9000,
     hot: true,
-    open: true,
-  },
+    open: true
+  }
 };
