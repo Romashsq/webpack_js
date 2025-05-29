@@ -1,9 +1,3 @@
 {
-  "presets": [
-    ["@babel/preset-env", {
-      "targets": "defaults",
-      "modules": "auto"
-    }]
-  ],
-  "sourceType": "unambiguous"
+  "presets": ["@babel/preset-env"]
 }
